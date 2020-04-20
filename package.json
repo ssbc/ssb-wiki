@@ -1,0 +1,11 @@
+{
+  "name": "ssb-wiki",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jacob Karlsson <jacob.karlsson95@gmail.com> (https://jacob-karlsson.com)",
+  "license": "MIT"
+}
