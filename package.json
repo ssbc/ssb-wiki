@@ -4,8 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape 'tests/**/*.test.js' | tap-spec"
   },
   "author": "Jacob Karlsson <jacob.karlsson95@gmail.com> (https://jacob-karlsson.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ssb-tangle": "^2.0.1"
+  },
+  "devDependencies": {
+    "scuttle-testbot": "^1.1.7",
+    "ssb-keys": "^7.2.2",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.13.2"
+  }
 }
