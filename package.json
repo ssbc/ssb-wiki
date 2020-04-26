@@ -9,6 +9,7 @@
   "author": "Jacob Karlsson <jacob.karlsson95@gmail.com> (https://jacob-karlsson.com)",
   "license": "MIT",
   "dependencies": {
+    "lodash.get": "^4.4.2",
     "pull-stream": "^3.6.14",
     "ssb-query": "^2.4.3",
     "ssb-tangle": "^2.0.1"
