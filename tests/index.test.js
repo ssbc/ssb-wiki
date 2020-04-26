@@ -1,29 +1,43 @@
 const test = require('tape')
 const CreateTestSbot = require('scuttle-testbot')
 const ssbKeys = require('ssb-keys')
+const SsbWiki = require('../')
 
-test('wiki', t => {
+test('wiki', async t => {
   const aliciaKeys = ssbKeys.generate()
   const bobbyKeys = ssbKeys.generate()
   
-  const myTempSbot = CreateTestSbot({ name: 'ssb-wiki-testbot' })
+  const myTempSbot = (CreateTestSbot
+    .use(require('ssb-query'))
+  )({ name: 'ssb-wiki-testbot' })
+
+  const ssbWiki = SsbWiki(myTempSbot)
   
   const alicia = myTempSbot.createFeed(aliciaKeys)
   const bobby = myTempSbot.createFeed(bobbyKeys)
   
-  alicia.add({type: 'test', content: 'a test message'}, (err, data) => {
-    if (err) throw err
+  const rootMsg = await publish(alicia, ssbWiki.newWiki())
 
-    console.log(data)
+  console.log(rootMsg)
+  const rootKey = rootMsg.key
 
-    bobby.add({type: 'test', content: 'a test message more'}, (err, data) => {
-      if (err) throw err
+  console.log(await publish(bobby, {type: 'test', content: 'a normal message'}))
 
-      console.log(data)
+  const heads = await ssbWiki.getHeads(rootKey)
 
-      myTempSbot.close()
-    })
-  })
+  console.log('heads (not heads yet)', JSON.stringify(heads, null, 2))
+
+  myTempSbot.close()
 
   t.end()
 })
+
+async function publish (user, message) {
+  return new Promise((resolve, reject) => {
+    user.add(message, (err, data) => {
+      if (err) return reject(err)
+
+      return resolve(data)
+    })
+  })
+}
