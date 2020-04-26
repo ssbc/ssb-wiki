@@ -17,21 +17,22 @@ test('wiki', async t => {
   const bobby = myTempSbot.createFeed(bobbyKeys)
   
   const rootMsg = await publish(alicia, ssbWiki.newWiki())
-
-  console.log(rootMsg)
+  fancyLog(rootMsg)
   const rootKey = rootMsg.key
 
-  console.log(await publish(bobby, { type: 'test', content: 'a normal message just because' }))
+  await publish(bobby, { type: 'test', content: 'a normal message just because' })
 
   let heads = await ssbWiki.getHeads(rootKey)
-  fancylog(await publish(alicia, ssbWiki.newEdit(rootKey, heads[0].key, {
+  console.log('heads1')
+  fancyLog(heads)
+  fancyLog(await publish(alicia, ssbWiki.newEdit(rootKey, heads[0], {
     text: 'How 2 cook potatoes',
     mentions: [{ link: '&KFoVS0P4Ps7BQzfBn3IOqV/Ujc9j8XAip5t01tRj74Y=.sha256'}]
   })))
 
   heads = await ssbWiki.getHeads(rootKey)
   console.log('heads2')
-  fancylog(heads)
+  fancyLog(heads)
 
   myTempSbot.close()
 
@@ -48,6 +49,6 @@ async function publish (user, message) {
   })
 }
 
-function fancylog (obj) {
+function fancyLog (obj) {
   console.log(JSON.stringify(obj, null, 2))
 }

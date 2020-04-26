@@ -3,11 +3,16 @@ const _ = {
   get: require('lodash.get')
 }
 const { getHeads } = require('ssb-tangle/lib/misc-junk')
+const { Map, ReverseMap } = require('ssb-tangle/graph/maps')
 
 module.exports = server => ({
   newWiki: () => {
     return {
-      type: 'wikiwiki'
+      type: 'wikiwiki',
+      tangle: {
+        root: null,
+        previous: null
+      }
     }
   },
 
@@ -26,8 +31,14 @@ module.exports = server => ({
   },
 
   getHeads: async rootKey => {
-    return getTangleMembers(server, rootKey)
-    // todo filter members for heads only
+    const allMembers = await getTangleMembers(server, rootKey)
+
+    // https://github.com/ssbc/ssb-tangle/issues/5
+    if (allMembers.length === 1) {
+      return [rootKey]
+    } else {
+      return getHeads(Map(allMembers, msg => msg.value.content.tangle))
+    }
   }
 })
 
