@@ -39,6 +39,13 @@ module.exports = server => ({
     } else {
       return getHeads(Map(allMembers, msg => msg.value.content.tangle))
     }
+  },
+
+  // just for testing
+  printMap: async rootKey => {
+    const allMembers = await getTangleMembers(server, rootKey)
+
+    console.log(Map(allMembers, msg => msg.value.content.tangle))
   }
 })
 
