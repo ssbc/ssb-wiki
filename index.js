@@ -1,9 +1,6 @@
 const pull = require('pull-stream')
-const _ = {
-  get: require('lodash.get')
-}
 const { getHeads } = require('ssb-tangle/lib/misc-junk')
-const { Map, ReverseMap } = require('ssb-tangle/graph/maps')
+const { Map } = require('ssb-tangle/graph/maps')
 
 module.exports = server => ({
   newWiki: () => {
